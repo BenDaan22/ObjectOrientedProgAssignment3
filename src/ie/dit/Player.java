@@ -10,14 +10,16 @@ public class Player
 	float speed =5;//0;
 	
 	PApplet parent;
-	
+
 	Player(PApplet p)
 	{
 		parent = p;
-		playerX = parent.random(0,100);
-		playerY = parent.random(0,80);
+		
+		playerX = 100; //parent.random(0,100);
+		playerY = 80; //parent.random(0,80);
 		w= 50;
 		h = 50;
+		
 		
 	}
 
@@ -59,8 +61,10 @@ public class Player
 		{
 		  speed=speed+gravity;
 		}*/
-		parent.fill(255);
-		parent.ellipse(playerX, playerY,w,h);
+		parent.fill(255,255,0);
+		
+		parent.rect(playerX, playerY,w,h);
+		
 		playerY=playerY+speed;
 		if(playerY>parent.height-h)
 		{
@@ -72,9 +76,31 @@ public class Player
 		}
 		
 		
-		//if(y >= rectY-(1.5*playerH) && x >= rectX-1 && x <= rectX+playerW+50 )
-		  //{
-		    //speed = speed * -1;
-		  //}
+		
+		
 	}
+	boolean collided(Boxes b)
+	{
+		if(playerX + w < b.boxX) //(playerX + w < b.boxX) 
+		//if they dont collide it returns falseShizhao
+		{
+			return false;
+		}
+		if(playerX - b.boxW > b.boxX)//(playerX-w - b.boxW > b.boxX)
+		{
+			return false;
+		}
+		if(playerY + h < b.boxY)//(playerY + w < b.boxY)
+		{
+			return false;
+		}
+		if(playerY - b.boxH > b.boxY)//(playerY - w - b.boxH > b.boxY)
+		{
+			return false;
+		}
+		
+		//if they collided then its true
+		return true;
+	}
+	
 }
