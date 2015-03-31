@@ -44,7 +44,7 @@ public class Main extends PApplet
 	    player.display();
 	    
 	    //check for boxes and player collision
-	  	for(int j = 1; j < boxes.size(); j++)
+	  	for(int j = 0; j < boxes.size(); j++)
 	  	{
 	  		Boxes box = (Boxes) boxes.get(j);
 	  		if(player.collided(box))

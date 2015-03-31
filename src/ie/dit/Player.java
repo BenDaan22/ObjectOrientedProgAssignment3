@@ -66,6 +66,7 @@ public class Player
 		parent.rect(playerX, playerY,w,h);
 		
 		playerY=playerY+speed;
+		
 		if(playerY>parent.height-h)
 		{
 			speed=speed*-1;
@@ -74,17 +75,16 @@ public class Player
 		{
 			speed=speed*-1;
 		}
-		
-		
+
 		
 		
 	}
 	boolean collided(Boxes b)
 	{
 		if(playerX + w < b.boxX) //(playerX + w < b.boxX) 
-		//if they dont collide it returns falseShizhao
 		{
-			return false;
+			return false; 
+			
 		}
 		if(playerX - b.boxW > b.boxX)//(playerX-w - b.boxW > b.boxX)
 		{
@@ -98,6 +98,8 @@ public class Player
 		{
 			return false;
 		}
+		
+		speed *= -1;
 		
 		//if they collided then its true
 		return true;
