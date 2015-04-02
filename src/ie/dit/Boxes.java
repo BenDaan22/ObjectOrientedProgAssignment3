@@ -14,8 +14,8 @@ public class Boxes
 	public Boxes(PApplet p)
 	{
 		parent = p;
-		boxX = parent.random(0,parent.width- boxX);
-		boxY = parent.random(-200,-100);
+		boxX = parent.random(0,parent.width);
+		boxY = parent.random(0,parent.height);
 		boxH = 15;
 		boxW = 60;
 	}
@@ -32,7 +32,7 @@ public class Boxes
 		if(boxY>parent.height)
 		{
 			boxY=parent.random(-300,-100);
-			boxX=parent.random(0,parent.width- boxX);
+			boxX=parent.random(0,parent.width +200);
 			//speed=speed+(float)0.5;
 		}
 	}

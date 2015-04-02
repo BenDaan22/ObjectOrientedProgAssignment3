@@ -9,6 +9,7 @@ public class Player
 	float gravity = 1;
 	float speed =5;//0;
 	
+	
 	PApplet parent;
 
 	Player(PApplet p)
@@ -48,6 +49,7 @@ public class Player
 		{
 			playerX -= 5;
 		}
+		
 
 	}
 	
@@ -71,7 +73,7 @@ public class Player
 		{
 			speed=speed*-1;
 		}
-		if(playerY<h)
+		if(playerY<0)
 		{
 			speed=speed*-1;
 		}
@@ -100,6 +102,63 @@ public class Player
 		}
 		
 		speed *= -1;
+		
+		//if they collided then its true
+		return true;
+	}
+	
+	public int LeftRight(Boxes b)
+	{
+		int i=0;
+		if(playerX+w>b.boxX&&playerY+h>b.boxY)
+		{
+		    i =1;
+			return i;
+		}
+		//left box side
+		else if(playerX+w>b.boxX&&playerY-b.boxH<b.boxY)
+		{
+			i =1;
+			return i;
+		}
+		else if(playerX-b.boxW<b.boxX&&playerY+h>b.boxY)
+		{
+			i=2;
+			return i;
+		}
+		else if(playerX-b.boxW<b.boxX&&playerY-b.boxH<b.boxY)
+		{
+			i=2;
+			return i;
+		}
+		else
+		{
+			return i;
+		}
+	}
+	
+	//chck for powerUp and player collision
+	boolean collided(PowerUp pow)
+	{
+		if(playerX + w < pow.powerX) //(playerX + w < b.boxX) 
+		{
+			return false; 
+			
+		}
+		if(playerX - pow.powerW > pow.powerX)//(playerX-w - b.boxW > b.boxX)
+		{
+			return false;
+		}
+		if(playerY + h < pow.powerY)//(playerY + w < b.boxY)
+		{
+			return false;
+		}
+		if(playerY - pow.powerH > pow.powerY)//(playerY - w - b.boxH > b.boxY)
+		{
+			return false;
+		}
+		
+		//speed *= -1;
 		
 		//if they collided then its true
 		return true;
