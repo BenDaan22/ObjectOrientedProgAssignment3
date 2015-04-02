@@ -100,9 +100,9 @@ public class Main extends PApplet
 	  			jumpCounter++;
 	  			println("Power Up Hit!");
 	  		}
-	  		if(keyPressed && key == ' ' )//&& jumpCounter !=0 )
+	  		/*
+	  		if(keyPressed && key == ' ')//&& jumpCounter !=0 )
   			{
-	  			
 	  			jumpCounter = jumpCounter - 1;
 	  			if(player.speed<0)
 	  			{
@@ -110,6 +110,8 @@ public class Main extends PApplet
 	  			}
   				player.playerY   -= 8;
   			}
+  			*/
+  			
 	  	}
 		
 		textSize(15);
@@ -117,5 +119,22 @@ public class Main extends PApplet
 		text("JumpCounter: " + jumpCounter,50,70);
 		
 	}//end draw 
+	
+	
+	public void keyReleased()
+	{
+		Player player = (Player)players.get(0);
+		
+		if(key == ' ')//&& jumpCounter !=0 )
+			{
+  			jumpCounter = jumpCounter - 1;
+  			if(player.speed<0)
+  			{
+  				player.speed*=-1;
+  			}
+				player.playerY   -= 40;
+			}
+	}
+	
 	
 }
