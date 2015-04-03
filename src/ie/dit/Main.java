@@ -1,6 +1,7 @@
 package ie.dit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import processing.core.PApplet;
 
@@ -9,6 +10,7 @@ public class Main extends PApplet
 	ArrayList players;
 	ArrayList boxes;
 	ArrayList powerUps;
+	ArrayList point;
 	
 	int score;
 	int counter=0;
@@ -21,7 +23,7 @@ public class Main extends PApplet
 		
 		size(700,1000);
 		score = 0;
-		jumpCounter = 0;
+		jumpCounter = 10;
 
 		boxes = new ArrayList();
 		for(int i=0;i< 3;i++)
@@ -37,6 +39,13 @@ public class Main extends PApplet
 		for(int i=0; i < 5; i++)
 		{
 			powerUps.add(new PowerUp(this));
+		}
+		
+		//to make points Objects
+		point = new ArrayList();
+		for(int i =0; i < 5; i++)
+		{
+			point.add(new Points(this));
 		}
 		
 
@@ -61,6 +70,13 @@ public class Main extends PApplet
 			powerUp.display();
 		}
 		
+		for(int i=0; i < point.size(); i++)
+		{
+			Points points =  (Points)point.get(i);
+			points.move();
+			points.display();
+		}
+		
 	    Player player = (Player)players.get(0);
 	    player.move();
 	    player.display();
@@ -75,7 +91,7 @@ public class Main extends PApplet
 	  			println("platform Hit!");
 	  		}
 	  		
-	  		counter = (int)player.LeftRight(box);
+	  		//counter = (int)player.LeftRight(box);
 	  		if(counter==1)
 	  		{
 	  			player.playerX--;
@@ -100,21 +116,25 @@ public class Main extends PApplet
 	  			jumpCounter++;
 	  			println("Power Up Hit!");
 	  		}
-	  		/*
-	  		if(keyPressed && key == ' ')//&& jumpCounter !=0 )
-  			{
-	  			jumpCounter = jumpCounter - 1;
-	  			if(player.speed<0)
-	  			{
-	  				player.speed*=-1;
-	  			}
-  				player.playerY   -= 8;
-  			}
-  			*/
+	  		
   			
 	  	}
 		
+	  //check for Points and player collision
+	  	for(int i = 0 ; i < point.size(); i++)
+	  	{
+	  		Points points =  (Points)point.get(i);
+	  		if(player.collided(points))
+	  		{
+	  			score++;
+	  			println("Score Hit!");
+	  		}
+	  		
+  			
+	  	}
+	  	
 		textSize(15);
+		fill(255,255,0);
 		text("Score: " + score,50,50);
 		text("JumpCounter: " + jumpCounter,50,70);
 		
@@ -125,15 +145,19 @@ public class Main extends PApplet
 	{
 		Player player = (Player)players.get(0);
 		
-		if(key == ' ')//&& jumpCounter !=0 )
-			{
+		/* if the player still has jump counter to jump this will run
+		 * but if no more counters then the player can no longer jump
+		*/
+		if(key == ' ' && jumpCounter !=0 )
+		{
   			jumpCounter = jumpCounter - 1;
   			if(player.speed<0)
   			{
   				player.speed*=-1;
   			}
-				player.playerY   -= 40;
-			}
+			
+  			player.playerY   -= 100;
+		}
 	}
 	
 	

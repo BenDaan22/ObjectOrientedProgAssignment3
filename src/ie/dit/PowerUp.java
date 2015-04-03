@@ -8,7 +8,7 @@ public class PowerUp
 	float powerX;
 	float powerY;
 	float powerW,powerH;
-	float speed = 1;
+	float speed = 3;
 	
 	
 	public PowerUp(PApplet p)

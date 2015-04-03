@@ -33,7 +33,7 @@ public class Boxes
 		{
 			boxY=parent.random(-300,-100);
 			boxX=parent.random(0,parent.width +200);
-			//speed=speed+(float)0.5;
+			
 		}
 	}
 	

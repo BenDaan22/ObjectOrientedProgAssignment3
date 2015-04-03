@@ -67,7 +67,15 @@ public class Player
 		
 		parent.rect(playerX, playerY,w,h);
 		
-		playerY=playerY+speed;
+		//left eye
+		parent.fill(0);
+		parent.rect(playerX + 10, playerY + 10, 10, 10);
+		//right eye
+		parent.rect(playerX + 30, playerY + 10, 10, 10);
+		//mouth
+		parent.ellipse(playerX + 25, playerY + 40, 30, 10);
+		
+		playerY=playerY+speed;// makes the player to move down
 		
 		if(playerY>parent.height-h)
 		{
@@ -101,12 +109,15 @@ public class Player
 			return false;
 		}
 		
-		speed *= -1;
+		playerY = b.boxY - h; // allows the player to stay on the platform when they do collide
+		speed *= b.speed;// allows the player to have the same pace as the platform while going down
+		
 		
 		//if they collided then its true
 		return true;
 	}
 	
+	/*
 	public int LeftRight(Boxes b)
 	{
 		int i=0;
@@ -136,10 +147,12 @@ public class Player
 			return i;
 		}
 	}
+	*/
 	
-	//chck for powerUp and player collision
+	//check for powerUp and player collision
 	boolean collided(PowerUp pow)
 	{
+		
 		if(playerX + w < pow.powerX) //(playerX + w < b.boxX) 
 		{
 			return false; 
@@ -158,10 +171,41 @@ public class Player
 			return false;
 		}
 		
-		//speed *= -1;
+		
+		pow.powerY = parent.random(-200,-100);
 		
 		//if they collided then its true
 		return true;
+		
+	}
+	//check for powerUp and player collision
+	boolean collided(Points poi)
+	{
+			
+		if(playerX + w < poi.pointX) //(playerX + w < b.boxX) 
+		{
+			return false; 
+				
+		}
+		if(playerX - poi.pointW > poi.pointX)//(playerX-w - b.boxW > b.boxX)
+		{
+			return false;
+		}
+		if(playerY + h < poi.pointY)//(playerY + w < b.boxY)
+		{
+			return false;
+		}
+		if(playerY - poi.pointH > poi.pointY)//(playerY - w - b.boxH > b.boxY)
+		{
+			return false;
+		}
+			
+			
+		poi.pointY = parent.random(-200,-100);
+			
+		//if they collided then its true
+		return true;
+			
 	}
 	
 }
