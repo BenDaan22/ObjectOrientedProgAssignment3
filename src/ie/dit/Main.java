@@ -1,12 +1,21 @@
 package ie.dit;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import processing.core.PApplet;
+import ddf.minim.AudioInput;
+import ddf.minim.Minim;
+import ddf.minim.analysis.FFT;
 
 public class Main extends PApplet
 {
+	Minim minim; //for microphone
+	AudioInput in;
+	
+	float sampleRate = 44100;
+	float frameSize = 2048;
+	FFT fft;
+	
 	ArrayList players;
 	ArrayList boxes;
 	ArrayList powerUps;
@@ -19,14 +28,18 @@ public class Main extends PApplet
 	
 	public void setup()
 	{
-		frameRate(30);
+		frameRate(50);
 		
-		size(700,1000);
+		size(2048,600);
+		minim = new Minim(this);
+		in = minim.getLineIn(Minim.MONO,(int)frameSize, sampleRate,16);
+		fft = new FFT(width, sampleRate);
+		
 		score = 0;
 		jumpCounter = 10;
 
 		boxes = new ArrayList();
-		for(int i=0;i< 3;i++)
+		for(int i=0;i< 5;i++)
 		{
 			boxes.add(new Boxes (this));
 		}
@@ -56,6 +69,10 @@ public class Main extends PApplet
 		println(frameCount);
 		background(0);
 		
+		fft.window(FFT.HAMMING);
+		fft.forward(in.left);
+		
+		
 		for(int i =0 ; i < boxes.size(); i++)
 		{
 			Boxes box = (Boxes) boxes.get(i);
@@ -80,6 +97,20 @@ public class Main extends PApplet
 	    Player player = (Player)players.get(0);
 	    player.move();
 	    player.display();
+	    
+	   
+		//bottom signal wave
+		for (int i = 0 ; i < in.bufferSize() ; i ++)
+		{
+			stroke(255,0,0); // red colour for the signal wave
+			float signal = in.left.get(i) *500;
+			line(i, height,i, height - signal);
+			if(player.playerY+ player.h > height- signal)
+			{
+			    player.speed = player.speed * -1;
+					    
+			}
+		}
 	    
 	    //check for boxes and player collision
 	  	for(int j = 0; j < boxes.size(); j++)
@@ -148,6 +179,7 @@ public class Main extends PApplet
 		/* if the player still has jump counter to jump this will run
 		 * but if no more counters then the player can no longer jump
 		*/
+		
 		if(key == ' ' && jumpCounter !=0 )
 		{
   			jumpCounter = jumpCounter - 1;
@@ -158,6 +190,7 @@ public class Main extends PApplet
 			
   			player.playerY   -= 100;
 		}
+		
 	}
 	
 	

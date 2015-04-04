@@ -43,11 +43,11 @@ public class Player
 		*/
 		if(parent.keyPressed && parent.key == 'd')
 		{
-			playerX += 5;
+			playerX += 10;
 		}
 		if(parent.keyPressed && parent.key == 'a')
 		{
-			playerX -= 5;
+			playerX -= 10;
 		}
 		
 

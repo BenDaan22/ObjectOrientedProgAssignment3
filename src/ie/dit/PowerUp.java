@@ -26,7 +26,7 @@ public class PowerUp
 	}
 	public void display()
 	{
-		parent.fill(255,0,0);
+		parent.fill(255,255,0);
 		parent.rect(powerX,powerY,powerW,powerH);
 		
 		if(powerY > parent.height)

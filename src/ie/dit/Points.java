@@ -9,7 +9,7 @@ public class Points
 	float pointY;
 	float pointH;
 	float pointW;
-	float speed = 3;
+	float speed = 4;
 	
 	public Points(PApplet p)
 	{
