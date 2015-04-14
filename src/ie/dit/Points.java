@@ -4,12 +4,14 @@ import processing.core.PApplet;
 
 public class Points 
 {
+	//to access the Processing links
 	PApplet parent;
+	
 	float pointX;
 	float pointY;
 	float pointH;
 	float pointW;
-	float speed = 4;
+	float speed = 4; // this shows how fast the points will fall down
 	
 	public Points(PApplet p)
 	{
@@ -22,7 +24,7 @@ public class Points
 	
 	public void move()
 	{
-		pointY += speed;
+		pointY += speed; // pulls the points object down
 	}
 	
 	public void display()
@@ -34,6 +36,7 @@ public class Points
 		
 		if(pointY > parent.height)
 		{
+			// if the points hits the maximum length of the screen height then it goes back to the top
 			pointY = parent.random(-300, -100);
 			pointX = parent.random(0, parent.width);
 		}

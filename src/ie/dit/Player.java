@@ -9,15 +9,15 @@ public class Player
 	float gravity = 1;
 	float speed =5;//0;
 	
-	
+	//to access the OOP links
 	PApplet parent;
 
 	Player(PApplet p)
 	{
 		parent = p;
 		
-		playerX = 100; //parent.random(0,100);
-		playerY = 80; //parent.random(0,80);
+		playerX = 100; 
+		playerY = 80;
 		w= 50;
 		h = 50;
 		
@@ -27,26 +27,15 @@ public class Player
 	
 	public void move()
 	{
-		/*
-		if(parent.keyPressed)
-		{
-			if(parent.key == 'd')
-			{
-				playerX += 5;
-			}
-			
-			if(parent.key == 'a')
-			{
-				playerX -= 5;
-			}
-		}
-		*/
+		//allows the player to move from left or right
 		if(parent.keyPressed && parent.key == 'd')
 		{
+			//to go right
 			playerX += 10;
 		}
 		if(parent.keyPressed && parent.key == 'a')
 		{
+			//to go left
 			playerX -= 10;
 		}
 		
@@ -55,14 +44,6 @@ public class Player
 	
 	public void display()
 	{
-		/*if(speed==0&&playerY==parent.height-h)
-		{
-			speed=0;
-		}
-		else
-		{
-		  speed=speed+gravity;
-		}*/
 		parent.fill(255,255,0);
 		
 		parent.rect(playerX, playerY,w,h);
@@ -77,6 +58,7 @@ public class Player
 		
 		playerY=playerY+speed;// makes the player to move down
 		
+		//this acts as the gravity to pull the player down
 		if(playerY>parent.height-h)
 		{
 			speed=speed*-1;
@@ -91,20 +73,21 @@ public class Player
 	}
 	boolean collided(Boxes b)
 	{
-		if(playerX + w < b.boxX) //(playerX + w < b.boxX) 
+		//If the player doesnt collide with the boxes then it returns false
+		if(playerX + w < b.boxX)
 		{
 			return false; 
 			
 		}
-		if(playerX - b.boxW > b.boxX)//(playerX-w - b.boxW > b.boxX)
+		if(playerX - b.boxW > b.boxX)
 		{
 			return false;
 		}
-		if(playerY + h < b.boxY)//(playerY + w < b.boxY)
+		if(playerY + h < b.boxY)
 		{
 			return false;
 		}
-		if(playerY - b.boxH > b.boxY)//(playerY - w - b.boxH > b.boxY)
+		if(playerY - b.boxH > b.boxY)
 		{
 			return false;
 		}
@@ -117,56 +100,26 @@ public class Player
 		return true;
 	}
 	
-	/*
-	public int LeftRight(Boxes b)
-	{
-		int i=0;
-		if(playerX+w>b.boxX&&playerY+h>b.boxY)
-		{
-		    i =1;
-			return i;
-		}
-		//left box side
-		else if(playerX+w>b.boxX&&playerY-b.boxH<b.boxY)
-		{
-			i =1;
-			return i;
-		}
-		else if(playerX-b.boxW<b.boxX&&playerY+h>b.boxY)
-		{
-			i=2;
-			return i;
-		}
-		else if(playerX-b.boxW<b.boxX&&playerY-b.boxH<b.boxY)
-		{
-			i=2;
-			return i;
-		}
-		else
-		{
-			return i;
-		}
-	}
-	*/
+	
 	
 	//check for powerUp and player collision
 	boolean collided(PowerUp pow)
 	{
-		
-		if(playerX + w < pow.powerX) //(playerX + w < b.boxX) 
+		//If the player doesnt collide with the powerUp then it returns false
+		if(playerX + w < pow.powerX) 
 		{
 			return false; 
 			
 		}
-		if(playerX - pow.powerW > pow.powerX)//(playerX-w - b.boxW > b.boxX)
+		if(playerX - pow.powerW > pow.powerX)
 		{
 			return false;
 		}
-		if(playerY + h < pow.powerY)//(playerY + w < b.boxY)
+		if(playerY + h < pow.powerY)
 		{
 			return false;
 		}
-		if(playerY - pow.powerH > pow.powerY)//(playerY - w - b.boxH > b.boxY)
+		if(playerY - pow.powerH > pow.powerY)
 		{
 			return false;
 		}
@@ -181,21 +134,21 @@ public class Player
 	//check for powerUp and player collision
 	boolean collided(Points poi)
 	{
-			
-		if(playerX + w < poi.pointX) //(playerX + w < b.boxX) 
+		//If the player doesnt collide with the points then it returns false
+		if(playerX + w < poi.pointX) 
 		{
 			return false; 
 				
 		}
-		if(playerX - poi.pointW > poi.pointX)//(playerX-w - b.boxW > b.boxX)
+		if(playerX - poi.pointW > poi.pointX)
 		{
 			return false;
 		}
-		if(playerY + h < poi.pointY)//(playerY + w < b.boxY)
+		if(playerY + h < poi.pointY)
 		{
 			return false;
 		}
-		if(playerY - poi.pointH > poi.pointY)//(playerY - w - b.boxH > b.boxY)
+		if(playerY - poi.pointH > poi.pointY)
 		{
 			return false;
 		}

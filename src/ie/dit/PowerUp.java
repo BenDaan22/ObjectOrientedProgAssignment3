@@ -4,11 +4,13 @@ import processing.core.PApplet;
 
 public class PowerUp
 {
+	//to access the Processing links
 	PApplet parent;
+	
 	float powerX;
 	float powerY;
 	float powerW,powerH;
-	float speed = 3;
+	float speed = 3; // this shows how fast the powerUp will fall down
 	
 	
 	public PowerUp(PApplet p)
@@ -22,7 +24,7 @@ public class PowerUp
 	
 	public void move()
 	{
-		powerY += speed;
+		powerY += speed;  // pulls the powerUp object down
 	}
 	public void display()
 	{
@@ -31,6 +33,7 @@ public class PowerUp
 		
 		if(powerY > parent.height)
 		{
+			// if the powerUp hits the maximum length of the screen height then it goes back to the top
 			powerY = parent.random(-300, -100);
 			powerX = parent.random(0, parent.width);
 		}

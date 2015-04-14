@@ -3,49 +3,77 @@ package ie.dit;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 import ddf.minim.AudioInput;
+import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
 
 public class Main extends PApplet
 {
-	Minim minim; //for microphone
-	AudioInput in;
+	AudioPlayer backsound;
+	AudioPlayer scoreSound;
+	AudioPlayer jumpPoint;
+	AudioPlayer jumpSound;
 	
-	boolean begin = false;
+	Minim minim; //for microphone
+	AudioInput in; // to make the mic pick up sounds the computer is hearing
+	
+	boolean begin = false; 		// a boolean to check if the player is already in-Game or in Game over screen
 	float sampleRate = 44100;
 	float frameSize = 2048;
-	FFT fft;
+	FFT fft; // to create the signal wave at the bottom of the game
 	
+	//create ArrayLists of players, boxes powerUps, point objects
 	ArrayList players;
 	ArrayList boxes;
 	ArrayList powerUps;
 	ArrayList point;
 	
-	int score;
-	int counter=0;
-	int jumpCounter;
-	int gameOver= 0;
+	
+	int score; // a counter to keep track how many plus signs(score) the player has gotten
+	int jumpCounter; // a counter to check if the player is able to jump
+	int gameOver= 0; // a counter to show the game Over screen
 
+	PImage start_screen;
+	PImage game_screen;
 	
 	public void setup()
 	{
+		size(2048,600);
+		
 		frameRate(50);
 		
-		size(2048,600);
+		
 		minim = new Minim(this);
 		in = minim.getLineIn(Minim.MONO,(int)frameSize, sampleRate,16);
 		fft = new FFT(width, sampleRate);
 		
+		//to add the sounds
+		backsound = minim.loadFile("music.mp3", 2048);
+		scoreSound = minim.loadFile("Children Yay! - Sound Effect.mp3", 2048);
+		jumpPoint = minim.loadFile("ding.mp3", 2048);
+		jumpSound = minim.loadFile("Jump6.wav",2048);
+		
+		//play the sound file
+		backsound.play();
+		backsound.loop();
+		
 		score = 0;
 		jumpCounter = 10;
 
+		//to input images
+		start_screen = loadImage("MainMenu.png");
+		game_screen = loadImage("GameScreen.png");
+		
+		//to create how many boxes object will be shown during game
 		boxes = new ArrayList();
 		for(int i=0;i< 5;i++)
 		{
 			boxes.add(new Boxes (this));
 		}
 		
+		//to create how many player object will be shown during game
 		players = new ArrayList();
 		players.add(new Player(this));
 		
@@ -68,37 +96,23 @@ public class Main extends PApplet
 	
 	public void draw()
 	{
-		textSize(20);
-		
-		background(0);
-		fill(255,255,0);
-		
-		//Instructions
-		text("Press S to start the game",550,20);
-		text("Get Plus signs as much as you can to gain points", 420,40);
-		text("To gain more jumping powers get the yellow boxes", 420, 60);
-		
-		text("Instructions:", 200, 300);
-		text("•Movements are A(left) and D(right)",200,330);
-		text("•To JUMP(Spacebar)", 200,350);
-		text("•Player can stay on platforms",200,370);
-		text("Note: If player hits signal waves underneath they loose",200,390);
-		text("Note: If jump counter hits Zero, player cant press SPACEBAR to jump unless hit yellow jump counter boxes", 200, 410);
-		
+		image(start_screen,0,0,width,height);
 		
 		if(key == 's')
 		{ 
-			begin = true;
-		}
-		println(frameCount);
-	
+			begin = true; // to Start the game
+		}	
 		
-		fft.window(FFT.HAMMING);
+		fft.window(FFT.HAMMING); // to calculate the Fourier Transformation
 		fft.forward(in.left);
 		
+		//this shows the objects within the game
 		if(begin == true)
 		{
-			background(0);
+			image(game_screen,0,0,width,height);
+			
+			
+			//to display the boxes objects
 			for(int i =0 ; i < boxes.size(); i++)
 			{
 				Boxes box = (Boxes) boxes.get(i);
@@ -106,6 +120,7 @@ public class Main extends PApplet
 				box.display();
 			}
 			
+			//to display the powerUps objects
 			for(int i =0; i < powerUps.size(); i ++)
 			{
 				PowerUp powerUp = (PowerUp) powerUps.get(i);
@@ -113,6 +128,7 @@ public class Main extends PApplet
 				powerUp.display();
 			}
 			
+			//to display the points objects
 			for(int i=0; i < point.size(); i++)
 			{
 				Points points =  (Points)point.get(i);
@@ -120,6 +136,7 @@ public class Main extends PApplet
 				points.display();
 			}
 			
+			//to display the player objects
 		    Player player = (Player)players.get(0);
 		    player.move();
 		    player.display();
@@ -130,10 +147,11 @@ public class Main extends PApplet
 			{
 				stroke(255,0,0); // red colour for the signal wave
 				float signal = in.left.get(i) *500;
+				
 				line(i, height,i, height - signal);
+				
 				if(player.playerY+ player.h > height- signal)
 				{
-				    //player.speed = player.speed * -1;
 					gameOver = 1;
 						    
 				}
@@ -145,24 +163,9 @@ public class Main extends PApplet
 		  		Boxes box = (Boxes) boxes.get(j);
 		  		if(player.collided(box))
 		  		{
-		  			//score++;
 		  			println("platform Hit!");
 		  		}
-		  		
-		  		//counter = (int)player.LeftRight(box);
-		  		if(counter==1)
-		  		{
-		  			player.playerX--;
-		  			println("Hit left!!");
-		  		}
-		  		if(counter==2)
-		  		{
-		  			player.playerX++;
-		  			println("Hit right!!");
-		  		}
-
-
-		  				
+		
 		  	}
 		  	
 		  	//check for powerUp and player collision
@@ -173,6 +176,9 @@ public class Main extends PApplet
 		  		{
 		  			jumpCounter++;
 		  			println("Power Up Hit!");
+		  			//to play the sound file when hits
+		  			jumpPoint.play();
+		  			jumpPoint.rewind();
 		  		}
 		  		
 	  			
@@ -186,6 +192,10 @@ public class Main extends PApplet
 		  		{
 		  			score++;
 		  			println("Score Hit!");
+		  			
+		  			//to play the sound file when hits
+		  			scoreSound.play();
+		  			scoreSound.rewind();
 		  		}
 		  		
 	  			
@@ -200,8 +210,10 @@ public class Main extends PApplet
 		// to display game over 
 		if(gameOver == 1)
 		{
+			image(game_screen,0,0,width,height); // to show the game Screen background
+			
 			textSize(40);
-			background(0);
+			
 			
 			text("GAMEOVER!!", width/2- 40,height/2);
 			text("Press S to play again and Good Luck" ,400, height/2 + 30);
@@ -210,6 +222,7 @@ public class Main extends PApplet
 			//if the player wants to play again
 			if(keyPressed && key == 's')
 			{
+				//resets everything back to their original state
 				begin = true;
 				gameOver =0;
 				score = 0;
@@ -241,6 +254,8 @@ public class Main extends PApplet
   			}
 			
   			player.playerY   -= 100;
+  			jumpSound.play();
+  			jumpSound.rewind();
 		}
 		
 	}

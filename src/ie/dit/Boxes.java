@@ -4,12 +4,14 @@ import processing.core.PApplet;
 
 public class Boxes
 {
+	//to access the Processing links
 	PApplet parent;
+	
 	float boxX;
 	float boxY;
 	float boxW;
 	float boxH;
-	float speed=1;
+	float speed=1; // this shows how fast the boxes will fall down
 	
 	public Boxes(PApplet p)
 	{
@@ -22,7 +24,7 @@ public class Boxes
 	
 	public void move()
 	{
-		boxY+=speed;
+		boxY+=speed; // pulls the boxes object down
 	}
 	
 	public void display()
@@ -31,6 +33,7 @@ public class Boxes
 		parent.rect(boxX, boxY, boxW, boxH);
 		if(boxY>parent.height)
 		{
+			// if the boxes hits the maximum length of the screen height then it goes back to the top
 			boxY=parent.random(-300,-100);
 			boxX=parent.random(0,parent.width +200);
 			
