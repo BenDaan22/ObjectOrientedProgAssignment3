@@ -8,6 +8,7 @@ public class Player
 	float playerX, playerY;
 	float gravity = 1;
 	float speed =5;//0;
+	float gethard = 1;
 	
 	//to access the OOP links
 	PApplet parent;
@@ -56,17 +57,19 @@ public class Player
 		//mouth
 		parent.ellipse(playerX + 25, playerY + 40, 30, 10);
 		
+		speed=speed+gethard*(float)0.001;
 		playerY=playerY+speed;// makes the player to move down
 		
 		//this acts as the gravity to pull the player down
 		if(playerY>parent.height-h)
 		{
-			speed=speed*-1;
+			playerY=parent.height-h;
 		}
 		if(playerY<0)
 		{
-			speed=speed*-1;
+			playerY=0;
 		}
+		gethard++;
 
 		
 		
@@ -161,4 +164,4 @@ public class Player
 			
 	}
 	
-}
+}	

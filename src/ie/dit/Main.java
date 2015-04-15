@@ -27,7 +27,7 @@ public class Main extends PApplet
 	//create ArrayLists of players, boxes powerUps, point objects
 	ArrayList players;
 	ArrayList boxes;
-	ArrayList powerUps;
+	ArrayList powerUps; 
 	ArrayList point;
 	
 	
@@ -42,7 +42,7 @@ public class Main extends PApplet
 	{
 		size(2048,600);
 		
-		frameRate(50);
+		frameRate(120);
 		
 		
 		minim = new Minim(this);
@@ -248,10 +248,10 @@ public class Main extends PApplet
 		if(key == ' ' && jumpCounter !=0 )
 		{
   			jumpCounter = jumpCounter - 1;
-  			if(player.speed<0)
+  			/*if(player.speed<0)
   			{
   				player.speed*=-1;
-  			}
+  			}*/
 			
   			player.playerY   -= 100;
   			jumpSound.play();
