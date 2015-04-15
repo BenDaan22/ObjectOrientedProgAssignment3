@@ -27,7 +27,7 @@ public class Main extends PApplet
 	//create ArrayLists of players, boxes powerUps, point objects
 	ArrayList players;
 	ArrayList boxes;
-	ArrayList powerUps; 
+	ArrayList powerUps;
 	ArrayList point;
 	
 	
@@ -42,7 +42,7 @@ public class Main extends PApplet
 	{
 		size(2048,600);
 		
-		frameRate(120);
+		frameRate(50);
 		
 		
 		minim = new Minim(this);
@@ -146,7 +146,7 @@ public class Main extends PApplet
 			for (int i = 0 ; i < in.bufferSize() ; i ++)
 			{
 				stroke(255,0,0); // red colour for the signal wave
-				float signal = in.left.get(i) *500;
+				float signal = in.left.get(i) *100;
 				
 				line(i, height,i, height - signal);
 				
@@ -218,6 +218,13 @@ public class Main extends PApplet
 			text("GAMEOVER!!", width/2- 40,height/2);
 			text("Press S to play again and Good Luck" ,400, height/2 + 30);
 			text("Your Score is: "+ score , width/2-40, height/2 + 70);
+
+			for(int i=0; i < point.size(); i++)
+			{
+				Points points =  (Points)point.get(i);
+				points.speed=0;
+			}
+			
 			
 			//if the player wants to play again
 			if(keyPressed && key == 's')
@@ -231,6 +238,13 @@ public class Main extends PApplet
 				Player player = (Player)players.get(0);
 				player.playerX = 100;
 				player.playerY = 80;
+				player.speed=3;
+				player.gethard=1;
+				for(int i=0; i < point.size(); i++)
+				{
+					Points points =  (Points)point.get(i);
+					points.speed=4;
+				}
 			}
 		}
 		
@@ -248,10 +262,10 @@ public class Main extends PApplet
 		if(key == ' ' && jumpCounter !=0 )
 		{
   			jumpCounter = jumpCounter - 1;
-  			/*if(player.speed<0)
+  			if(player.speed<0)
   			{
   				player.speed*=-1;
-  			}*/
+  			}
 			
   			player.playerY   -= 100;
   			jumpSound.play();
@@ -259,6 +273,4 @@ public class Main extends PApplet
 		}
 		
 	}
-	
-	
 }
